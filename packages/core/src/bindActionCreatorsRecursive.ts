@@ -1,14 +1,9 @@
-import {
-    Dispatch,
-    AnyAction,
-    ActionCreator,
-    ActionCreatorsMapObject,
-} from "redux";
+import { Dispatch, AnyAction, ActionCreator } from "redux";
 
-function bindActionCreator<A extends AnyAction = AnyAction>(
-    actionCreator: ActionCreator<A>,
-    dispatch: Dispatch
-) {
+export function bindActionCreator<
+    AD extends AnyAction = AnyAction,
+    A extends AD = AD
+>(actionCreator: ActionCreator<A>, dispatch: Dispatch<AD>) {
     let boundActionCreator = (...args: any[]) =>
         dispatch(actionCreator(...args));
     Reflect.defineProperty(boundActionCreator, "name", {
@@ -17,6 +12,14 @@ function bindActionCreator<A extends AnyAction = AnyAction>(
     });
     return boundActionCreator;
 }
+
+export type ActionCreatorsMapObjectRecursive<A = any> =
+    | ActionCreator<A>
+    | ActionCreatorsMapObject<A>;
+
+export type ActionCreatorsMapObject<A = any> = {
+    [key: string]: ActionCreatorsMapObjectRecursive<A>;
+};
 
 /**
  * Turns recursively an object whose values are action creators, into an object with the
@@ -41,31 +44,12 @@ function bindActionCreator<A extends AnyAction = AnyAction>(
  * function.
  */
 
-export default function bindActionCreatorsRecursive<
-    A,
-    C extends ActionCreator<A>
->(actionCreator: C, dispatch: Dispatch): C;
-
-export default function bindActionCreatorsRecursive<
-    A extends ActionCreator<any>,
-    B extends ActionCreator<any>
->(actionCreator: A, dispatch: Dispatch): B;
-
-export default function bindActionCreatorsRecursive<
-    A,
-    M extends ActionCreatorsMapObject<A>
->(actionCreators: M, dispatch: Dispatch): M;
-export default function bindActionCreatorsRecursive<
-    M extends ActionCreatorsMapObject,
-    N extends ActionCreatorsMapObject
->(actionCreators: M, dispatch: Dispatch): N;
-
-export default function bindActionCreatorsRecursive(
-    actionCreators: ActionCreator<any> | ActionCreatorsMapObject,
-    dispatch: Dispatch
-) {
+export function bindActionCreatorsRecursive<
+    AD extends AnyAction = AnyAction,
+    A extends AD = AD
+>(actionCreators: ActionCreatorsMapObjectRecursive<A>, dispatch: Dispatch<AD>) {
     if (typeof actionCreators === "function") {
-        return bindActionCreator(actionCreators, dispatch);
+        return bindActionCreator(actionCreators, dispatch) as ActionCreator<A>;
     }
 
     if (typeof actionCreators !== "object" || actionCreators === null) {
@@ -77,7 +61,7 @@ export default function bindActionCreatorsRecursive(
         );
     }
 
-    const boundActionCreators: ActionCreatorsMapObject<AnyAction> = {};
+    const boundActionCreators: ActionCreatorsMapObjectRecursive<A> = {};
     for (const key of Object.keys(actionCreators)) {
         const actionCreator = actionCreators[key];
         if (
