@@ -1,6 +1,6 @@
 {
     "name": "@reref/core",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "description": "reref - core",
     "repository": {
         "type": "git",
@@ -14,9 +14,25 @@
     "main": "lib/reref.js",
     "unpkg": "dist/reref.js",
     "module": "es/reref.js",
+    "types": "types/index.d.ts",
+    "files": [
+        "dist",
+        "lib",
+        "es",
+        "src",
+        "types"
+    ],
     "scripts": {
-        "clean": "rimraf lib dist",
+        "clean": "rimraf lib dist es coverage types",
+        "format": "prettier --write \"{src,test}/**/*.{js,ts}\" \"**/*.md\"",
+        "format:check": "prettier --list-different \"{src,test}/**/*.{js,ts}\" \"**/*.md\"",
+        "lint": "eslint --ext js,ts src",
+        "check-types": "tsc --noEmit",
         "build": "rollup -c",
+        "pretest": "yarn build",
+        "prepublishOnly": "yarn clean && yarn check-types && yarn format:check && yarn lint && yarn test",
+        "test:watch": "yarn test -- --watch",
+        "test:cov": "yarn test -- --coverage",
         "test": "jest"
     },
     "dependencies": {
@@ -68,6 +84,10 @@
         "rollup-plugin-typescript2": "^0.27.3",
         "typescript": "^4.0.3",
         "typings-tester": "^0.3.2"
+    },
+    "jest": {
+        "testRegex": "(/src/.*\\.spec\\.[tj]s)$",
+        "coverageProvider": "v8"
     },
     "npmFileMap": [
         {
