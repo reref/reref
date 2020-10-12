@@ -40,7 +40,7 @@ export function createReref<
         useDebug: false as boolean,
         unsubscribe: null as Unsubscribe | null,
         actionCreators: null as ActionCreatorsMapObjectRecursive<A> | null,
-        rerefReact: null as RerefReact | null,
+        rerefReact: null as RerefReact<S, A, StateExt, Ext> | null,
     };
 
     const useDebug: (use: boolean) => void = (use) => {
@@ -73,7 +73,9 @@ export function createReref<
         values.enhancer = enhancer;
     };
 
-    const setRerefReact: (rerefReact: RerefReact) => void = (rerefReact) => {
+    const setRerefReact: (
+        rerefReact: RerefReact<S, A, StateExt, Ext>
+    ) => void = (rerefReact) => {
         values.rerefReact = rerefReact;
     };
 
@@ -116,6 +118,7 @@ export function createReref<
         values.unsubscribe = unsubscribe;
         const { rerefReact } = values;
         if (rerefReact) {
+            rerefReact.setStore(store);
             rerefReact.init();
         }
     };

@@ -13,7 +13,22 @@ export interface AddReduxMiddleware<S = any, D extends Dispatch = Dispatch> {
     (middleware: Middleware<S, D>): void;
 }
 
-export interface RerefReact {
+export interface SetStore<
+    S = any,
+    A extends Action = AnyAction,
+    StateExt = never,
+    Ext = {}
+> {
+    (store: Store<S & StateExt, A> & Ext): void;
+}
+
+export interface RerefReact<
+    S = any,
+    A extends Action = AnyAction,
+    StateExt = never,
+    Ext = {}
+> {
+    setStore: SetStore<S, A, StateExt, Ext>;
     init: () => void;
 }
 
@@ -41,6 +56,6 @@ export interface Reref<
         actionCreators: ActionCreatorsMapObjectRecursive<A>
     ) => void;
     setEnhancer: (enhancer: StoreEnhancer<Ext, StateExt>) => void;
-    setRerefReact: (rerefReact: RerefReact) => void;
+    setRerefReact: (rerefReact: RerefReact<S, A, StateExt, Ext>) => void;
     init: () => void;
 }
