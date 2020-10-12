@@ -1,0 +1,17 @@
+{
+  "name": "@reref/cli",
+  "version": "0.0.1",
+  "description": "reref - cli",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/reref/reref.git",
+    "directory": "packages/cli"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+  }
+}
