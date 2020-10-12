@@ -28,13 +28,13 @@ function bindActionCreator<A extends AnyAction = AnyAction>(
  * and get a dispatch wrapped function in return.
  *
  * @param actionCreator An object whose values are action
- * creator functions or other object with such values recursively. 
+ * creator functions or other object with such values recursively.
  * One handy way to obtain it is to use ES6 `import * as`
  * syntax. You may also pass a single function.
- * 
+ *
  * @param dispatch The `dispatch` function available on your Redux
  * store.
- * 
+ *
  * @returns The object mimicking the original object, but with
  * every action creator wrapped into the `dispatch` call. If you passed a
  * function as `actionCreators`, the return value will also be a single
