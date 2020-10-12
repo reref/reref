@@ -1,30 +1,8 @@
 import { Action, AnyAction, Store } from "redux";
-import React from "react";
-import ReactDOM from "react-dom";
+import { createElement, StrictMode } from "react";
+import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { RerefReact } from "./createReref";
-
-export interface SetStore<
-    S = any,
-    A extends Action = AnyAction,
-    StateExt = never,
-    Ext = {}
-> {
-    (store: Store<S & StateExt, A> & Ext): void;
-}
-
-export interface RerefDom<
-    S = any,
-    A extends Action = AnyAction,
-    StateExt = never,
-    Ext = {}
-> extends RerefReact {
-    useDebug: (use: boolean) => void;
-    setStore: SetStore<S, A, StateExt, Ext>;
-    setRoot: (root: Element | DocumentFragment | null) => void;
-    setReactRoot: (reactRoot: JSX.Element) => void;
-    init: () => void;
-}
+import { RerefDom } from "./types/rerefReactDom";
 
 export function createRerefDom<
     S = any,
@@ -63,11 +41,11 @@ export function createRerefDom<
         const store: Store<any, Action<any>> = values.store as any;
         const reactRoot = values.reactRoot;
 
-        ReactDOM.render(
-            React.createElement(
+        render(
+            createElement(
                 Provider,
                 { store },
-                React.createElement(React.StrictMode, {}, reactRoot)
+                createElement(StrictMode, {}, reactRoot)
             ),
             root
         );

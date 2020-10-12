@@ -6,7 +6,7 @@ import { terser } from 'rollup-plugin-terser'
 
 import pkg from './package.json'
 
-const extensions = ['.ts']
+const extensions = ['.ts','.js']
 const noDeclarationFiles = { compilerOptions: { declaration: false } }
 
 const babelRuntimeVersion = pkg.dependencies['@babel/runtime'].replace(
@@ -72,86 +72,86 @@ export default [
         ],
     },
 
-    // ES for Browsers
-    {
-        input: 'src/index.ts',
-        output: { file: 'es/reref.mjs', format: 'es', indent: false },
-        plugins: [
-            nodeResolve({
-                extensions,
-            }),
-            replace({
-                'process.env.NODE_ENV': JSON.stringify('production'),
-            }),
-            typescript({ tsconfigOverride: noDeclarationFiles }),
-            babel({
-                extensions,
-                exclude: 'node_modules/**',
-            }),
-            terser({
-                compress: {
-                    pure_getters: true,
-                    unsafe: true,
-                    unsafe_comps: true,
-                    warnings: false,
-                },
-            }),
-        ],
-    },
+    // // ES for Browsers
+    // {
+    //     input: 'src/index.ts',
+    //     output: { file: 'es/reref.mjs', format: 'es', indent: false },
+    //     plugins: [
+    //         nodeResolve({
+    //             extensions,
+    //         }),
+    //         replace({
+    //             'process.env.NODE_ENV': JSON.stringify('production'),
+    //         }),
+    //         typescript({ tsconfigOverride: noDeclarationFiles }),
+    //         babel({
+    //             extensions,
+    //             exclude: 'node_modules/**',
+    //         }),
+    //         terser({
+    //             compress: {
+    //                 pure_getters: true,
+    //                 unsafe: true,
+    //                 unsafe_comps: true,
+    //                 warnings: false,
+    //             },
+    //         }),
+    //     ],
+    // },
 
-    // UMD Development
-    {
-        input: 'src/index.ts',
-        output: {
-            file: 'dist/reref.js',
-            format: 'umd',
-            name: 'Reref',
-            indent: false,
-        },
-        plugins: [
-            nodeResolve({
-                extensions,
-            }),
-            typescript({ tsconfigOverride: noDeclarationFiles }),
-            babel({
-                extensions,
-                exclude: 'node_modules/**',
-            }),
-            replace({
-                'process.env.NODE_ENV': JSON.stringify('development'),
-            }),
-        ],
-    },
+    // // UMD Development
+    // {
+    //     input: 'src/index.ts',
+    //     output: {
+    //         file: 'dist/reref.js',
+    //         format: 'umd',
+    //         name: 'Reref',
+    //         indent: false,
+    //     },
+    //     plugins: [
+    //         nodeResolve({
+    //             extensions,
+    //         }),
+    //         typescript({ tsconfigOverride: noDeclarationFiles }),
+    //         babel({
+    //             extensions,
+    //             exclude: 'node_modules/**',
+    //         }),
+    //         replace({
+    //             'process.env.NODE_ENV': JSON.stringify('development'),
+    //         }),
+    //     ],
+    // },
 
-    // UMD Production
-    {
-        input: 'src/index.ts',
-        output: {
-            file: 'dist/reref.min.js',
-            format: 'umd',
-            name: 'Reref',
-            indent: false,
-        },
-        plugins: [
-            nodeResolve({
-                extensions,
-            }),
-            typescript({ tsconfigOverride: noDeclarationFiles }),
-            babel({
-                extensions,
-                exclude: 'node_modules/**',
-            }),
-            replace({
-                'process.env.NODE_ENV': JSON.stringify('production'),
-            }),
-            terser({
-                compress: {
-                    pure_getters: true,
-                    unsafe: true,
-                    unsafe_comps: true,
-                    warnings: false,
-                },
-            }),
-        ],
-    },
+    // // UMD Production
+    // {
+    //     input: 'src/index.ts',
+    //     output: {
+    //         file: 'dist/reref.min.js',
+    //         format: 'umd',
+    //         name: 'Reref',
+    //         indent: false,
+    //     },
+    //     plugins: [
+    //         nodeResolve({
+    //             extensions,
+    //         }),
+    //         typescript({ tsconfigOverride: noDeclarationFiles }),
+    //         babel({
+    //             extensions,
+    //             exclude: 'node_modules/**',
+    //         }),
+    //         replace({
+    //             'process.env.NODE_ENV': JSON.stringify('production'),
+    //         }),
+    //         terser({
+    //             compress: {
+    //                 pure_getters: true,
+    //                 unsafe: true,
+    //                 unsafe_comps: true,
+    //                 warnings: false,
+    //             },
+    //         }),
+    //     ],
+    // },
 ] 
