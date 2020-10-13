@@ -9,45 +9,46 @@ import {
 } from "redux";
 import { ActionCreatorsMapObjectRecursive } from "../bindActionCreatorsRecursive";
 
-export interface AddReduxMiddleware<S = any, D extends Dispatch = Dispatch> {
+export type AddReduxMiddleware<S = any, D extends Dispatch = Dispatch> = {
     (middleware: Middleware<S, D>): void;
-}
+};
 
-export interface SetStore<
+export type SetStore<
     S = any,
     A extends Action = AnyAction,
     StateExt = never,
     Ext = {}
-> {
+> = {
     (store: Store<S & StateExt, A> & Ext): void;
-}
+};
 
-export interface RerefReact<
+export type RerefReact<
     S = any,
     A extends Action = AnyAction,
     StateExt = never,
     Ext = {}
-> {
+> = {
+    useDebug: (use: boolean) => void;
     setStore: SetStore<S, A, StateExt, Ext>;
     init: () => void;
-}
+};
 
-export interface GetStore<
+export type GetStore<
     S = any,
     A extends Action = AnyAction,
     StateExt = never,
     Ext = {}
-> {
+> = {
     (): (Store<S & StateExt, A> & Ext) | null;
-}
+};
 
-export interface Reref<
+export type Reref<
     S = any,
     A extends Action = AnyAction,
     StateExt = never,
     Ext = {},
     D extends Dispatch = Dispatch
-> {
+> = {
     useDebug: (use: boolean) => void;
     getStore: GetStore<S, A, StateExt, Ext>;
     addReduxMiddleware: AddReduxMiddleware<S, D>;
@@ -58,4 +59,4 @@ export interface Reref<
     setEnhancer: (enhancer: StoreEnhancer<Ext, StateExt>) => void;
     setRerefReact: (rerefReact: RerefReact<S, A, StateExt, Ext>) => void;
     init: () => void;
-}
+};

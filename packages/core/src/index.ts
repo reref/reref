@@ -1,6 +1,6 @@
 import { bindActionCreatorsRecursive } from "./bindActionCreatorsRecursive";
 import { createReref } from "./createReref";
-import { createRerefDom } from "./createRerefDom";
+import { createRerefReactDom } from "./createRerefReactDom";
 import {
     AddReduxMiddleware,
     GetStore,
@@ -8,7 +8,7 @@ import {
     RerefReact,
     SetStore,
 } from "./types/reref";
-import { RerefDom } from "./types/rerefReactDom";
+import { RerefReactDom } from "./types/rerefReactDom";
 import {
     CreateReducer,
     CreateReducerParam,
@@ -17,8 +17,8 @@ import {
 import { createReducer } from "./createReducer";
 
 export { AddReduxMiddleware, GetStore, Reref, RerefReact, SetStore };
-export { RerefDom };
+export { RerefReactDom };
 export { CreateReducer, CreateReducerParam, SubReducers };
 export { createReducer };
 
-export { bindActionCreatorsRecursive, createReref, createRerefDom };
+export { bindActionCreatorsRecursive, createReref, createRerefReactDom };

@@ -118,6 +118,7 @@ export function createReref<
         values.unsubscribe = unsubscribe;
         const { rerefReact } = values;
         if (rerefReact) {
+            rerefReact.useDebug(values.useDebug);
             rerefReact.setStore(store);
             rerefReact.init();
         }

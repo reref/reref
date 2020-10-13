@@ -2,9 +2,9 @@ import { Action, AnyAction, Store } from "redux";
 import { createElement, StrictMode } from "react";
 import { render } from "react-dom";
 import { Provider } from "react-redux";
-import { RerefDom } from "./types/rerefReactDom";
+import { RerefReactDom } from "./types/rerefReactDom";
 
-export function createRerefDom<
+export function createRerefReactDom<
     S = any,
     A extends Action = AnyAction,
     StateExt = never,
@@ -14,7 +14,7 @@ export function createRerefDom<
         useDebug: false as boolean,
         store: null as (Store<S & StateExt, A> & Ext) | null,
         root: null as Element | DocumentFragment | null,
-        reactRoot: null as JSX.Element | null,
+        reactRootGenerator: null as (() => JSX.Element) | null,
     };
 
     const useDebug = (use: boolean) => {
@@ -26,8 +26,8 @@ export function createRerefDom<
     const setRoot = (root: Element | DocumentFragment | null) => {
         values.root = root;
     };
-    const setReactRoot = (reactRoot: JSX.Element) => {
-        values.reactRoot = reactRoot;
+    const setReactRootGenerator = (reactRootGenerator: () => JSX.Element) => {
+        values.reactRootGenerator = reactRootGenerator;
     };
 
     const init = () => {
@@ -39,24 +39,28 @@ export function createRerefDom<
             throw new Error("store should not be null");
         }
         const store: Store<any, Action<any>> = values.store as any;
-        const reactRoot = values.reactRoot;
+        const reactRootGenerator = values.reactRootGenerator;
+
+        if (!reactRootGenerator) {
+            throw new Error("reactRootGenerator should not be null");
+        }
 
         render(
             createElement(
                 Provider,
                 { store },
-                createElement(StrictMode, {}, reactRoot)
+                createElement(StrictMode, {}, reactRootGenerator())
             ),
             root
         );
     };
 
-    const rerefDom: RerefDom<S, A, StateExt, Ext> = {
+    const rerefReactDom: RerefReactDom<S, A, StateExt, Ext> = {
         useDebug,
         setStore,
         setRoot,
-        setReactRoot,
+        setReactRootGenerator,
         init,
     };
-    return rerefDom;
+    return rerefReactDom;
 }
