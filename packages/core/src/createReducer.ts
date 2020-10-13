@@ -1,7 +1,7 @@
 import { Action, AnyAction, Reducer } from "redux";
 import { CreateReducerParam, SubReducers } from "./types/createReducerTypes";
 
-export default function createReducer<S = any, A extends Action = AnyAction>(
+export function createReducer<S = any, A extends Action = AnyAction>(
     initialState: S,
     subReducers: SubReducers<S, A>,
     params: CreateReducerParam<S, A>
